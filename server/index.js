@@ -15,11 +15,15 @@ const io = require("socket.io")(server, {
 		origin: "*",
 	},
 });
-app.use(cors());
+// app.use(cors());
 app.use(router);
 
 io.on("connect", (socket) => {
 	console.log("We have a new connection!!");
+
+	socket.on("join", ({ name, room }) => {
+		console.log(name, room);
+	});
 
 	socket.on("disconnect", () => {
 		console.log("User has left!!");

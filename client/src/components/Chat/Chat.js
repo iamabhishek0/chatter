@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import QueryString from "query-string";
+import queryString from "query-string";
 import io from "socket.io-client";
 
 import "./Chat.css";
@@ -10,13 +10,21 @@ const Chat = ({ location }) => {
 	const [room, setRoom] = useState("");
 	const ENDPOINT = "localhost:5000";
 
-	socket = io(ENDPOINT);
 	useEffect(() => {
-		const { name, room } = QueryString.parse(location.search);
-		setName(name);
+		const { name, room } = queryString.parse(location.search);
+
+		socket = io(ENDPOINT);
+
 		setRoom(room);
-		// console.log(socket);
-	});
+		setName(name);
+
+		socket.emit("join", { name, room }, (error) => {
+			if (error) {
+				alert(error);
+			}
+		});
+	}, [ENDPOINT, location.search]);
+
 	return <h1>Chat</h1>;
 };
 
