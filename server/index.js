@@ -1,11 +1,12 @@
+const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
-const http = require("http");
 const cors = require("cors");
 
-const PORT = process.env.PORT || 5000;
+const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
 const router = require("./router");
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 const server = http.createServer(app);
@@ -15,12 +16,11 @@ const io = require("socket.io")(server, {
 		origin: "*",
 	},
 });
+
 // app.use(cors());
 app.use(router);
 
 io.on("connect", (socket) => {
-	console.log("We have a new connection!!");
-
 	socket.on("join", ({ name, room }, callback) => {
 		const { error, user } = addUser({ id: socket.id, name, room });
 
@@ -52,6 +52,7 @@ io.on("connect", (socket) => {
 
 		callback();
 	});
+
 	socket.on("disconnect", () => {
 		const user = removeUser(socket.id);
 
