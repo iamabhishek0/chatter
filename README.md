@@ -1,6 +1,6 @@
 # Realtime Chat Application
 
-### [Live Site](https://realtime-chat-application.netlify.com)
+### [Live Site](https://chatter-nodejs.netlify.app/)
 
 ![Chat Application](https://i.ytimg.com/vi/ZwFA3YMfkoc/maxresdefault.jpg)
 
